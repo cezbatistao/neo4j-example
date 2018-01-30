@@ -1,0 +1,46 @@
+buildscript {
+    ext.neo4j_ogm_version = '2.1.5'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'gs-accessing-data-neo4j'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-data-neo4j") {
+        exclude group: 'org.neo4j', module: 'neo4j-ogm-bolt-driver'
+    }
+    compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+    compile "org.neo4j:neo4j-ogm-bolt-driver:${neo4j_ogm_version}"
+
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    runtime('org.springframework.boot:spring-boot-devtools')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile "org.neo4j:neo4j-ogm-embedded-driver:${neo4j_ogm_version}"
+    testCompile 'org.neo4j:neo4j:3.1.2'
+}
+
