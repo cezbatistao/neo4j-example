@@ -112,4 +112,14 @@ public class PersonRepositoryIntegrationTest {
                 .contains(tokyo, paris, berlin)
                 .doesNotContain(toronto, roma, brussels, newYork);
     }
+
+    @Test
+    public void testVerifyCitiesWhoPassedByNewYorkWithRegex() {
+        List<City> allCities = cityRepository.findAllCitiesTheyPassedByCityName("(?i).*york.*");
+
+        assertThat(allCities).isNotEmpty()
+                .hasSize(3)
+                .contains(tokyo, paris, berlin)
+                .doesNotContain(toronto, roma, brussels, newYork);
+    }
 }
